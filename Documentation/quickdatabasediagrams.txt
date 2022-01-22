@@ -1,0 +1,135 @@
+# Modify this code to update the DB schema diagram.
+# To reset the sample schema, replace everything with
+# two dots ('..' - without quotes).
+
+actor
+-
+actor_id PK int
+first_name VARCHAR(45)
+last_name VARCHAR(45)
+last_update timestamp
+
+category
+-
+category_id PK int
+name VARCHAR(40)
+last_update timestamp
+
+address
+-
+address_id PK int
+address VARCHAR(50)
+address2 VARCHAR(50)
+district VARCHAR(20)
+city_id smallint FK >- city.city_id
+postal_code VARCHAR(10)
+phone VARCHAR(20)
+last_update timestamp
+
+city
+-
+city_id PK int
+city VARCHAR(50)
+country_id smallint FK >- country.country_id
+last_update timestamp
+
+country
+-
+country_id PK int
+country VARCHAR(50)
+last_update timestamp
+
+customer
+-
+customer_id PK int
+store_id smallint FK >- store.store_id
+first_name VARCHAR(45)
+last_name VARCHAR(45)
+email VARCHAR(50)
+address_id smallint FK >- address.address_id
+activebool boolean
+create_date date
+last_update timestamp
+active int
+
+customer_list
+-
+id int FK >- customer.customer_id
+name VARCHAR(50)
+address VARCHAR(50)
+zip_code VARCHAR(10)
+phone VARCHAR(20)
+city VARCHAR(50)
+country VARCHAR(50)
+notes VARCHAR(50)
+sid int
+
+film
+-
+film_id PK int
+title VARCHAR(255)
+description text
+release_year int
+language_id smallint
+original_language_id smallint
+rental_duration smallint
+rental_rate numeric(4,2)
+length smallint
+replacement_cost numeric(5,2)
+rating text
+last_update timestamp
+special_features text
+fulltext tsvector
+
+inventory
+-
+inventory_id PK int
+film_id smallint FK >- film.film_id
+store_id smallint FK >- store.store_id
+last_update timestamp
+
+store
+-
+store_id PK int
+manager_staff_id smallint
+address_id smallint FK >- address.address_id
+last_update timestamp
+
+film_actor
+-
+actor_id smallint FK >- actor.actor_id
+film_id smallint FK >- film.film_id
+last_update timestamp
+
+rental
+-
+rental_id PK int
+rental_date timestamp
+inventory_id int FK >- inventory.inventory_id
+customer_id smallint FK >- customer.customer_id
+return_date timestamp
+staff_id smallint FK >- staff.staff_id
+last_update timestamp
+
+staff
+-
+staff_id PK int
+first_name varchar(45)
+last_name varchar(45)
+address_id smallint FK >- address.address_id
+email varchar(50)
+store_id smallint FK >- store.store_id
+active boolean
+username varchar(16)
+password varchar(40)
+last_update timestamp
+picture bytea
+
+payment
+-
+payment_id PK int
+customer_id smallint FK >- customer.customer_id
+staff_id smallint FK >- staff.staff_id
+rental_id int FK >- rental.rental_id
+amount numeric(5,2)
+payment_date timestamp
